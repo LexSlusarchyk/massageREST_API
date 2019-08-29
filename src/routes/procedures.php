@@ -2,7 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app = new \Slim\App;
+// $app = new \Slim\App;
 
 //Get All Procedures
 $app->get('/api/procedures', function (Request $request, Response $response) {
@@ -46,8 +46,9 @@ $app->get('/api/procedure/{id}', function (Request $request, Response $response)
 $app->post('/api/procedures/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $text = $request->getParam('text');
+    $image = $request->getParam('image');
 
-    $sql = "INSERT INTO Procedures (title, text) VALUES (:title,:text)";
+    $sql = "INSERT INTO Procedures (title, text, image) VALUES (:title,:text, :image)";
 
     try{
         // Get DB Object
@@ -58,10 +59,11 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':image', $image);
 
         $stmt->execute();
         $db = null;
-        echo '{"notice": {"text": "Added"}';
+        echo '{"notice": {"text": "Added"}}';
 
     } catch(PDOException $e){
         echo '{"error": {"text": '.$e->getMessage().'}';
@@ -73,11 +75,13 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $text = $request->getParam('text');
+    $image = $request->getParam('image');
 
 
     $sql = "UPDATE Procedures SET
                 title = :title,
-                text = :text
+                text = :text,
+                image = :image
             WHERE id = $id";
 
     try{
@@ -89,10 +93,11 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':image', $image);
 
         $stmt->execute();
 
-        echo '{"notice": {"text": "Updated"}';
+        echo '{"notice": {"text": "Updated"}}';
 
     } catch(PDOException $e){
         echo '{"error": {"text": '.$e->getMessage().'}';
@@ -116,7 +121,7 @@ $app->delete('/api/procedure/delete/{id}', function (Request $request, Response 
         $stmt->execute();
         $db = null;
 
-        echo '{"notice": {"text": "Deleted"}';
+        echo '{"notice": {"text": "Deleted"}}';
 
     } catch(PDOException $e){
         echo '{"error": {"text": '.$e->getMessage().'}';

@@ -1,6 +1,8 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\UploadedFile;
+
 
 
 //$config['db']['host']   = 'localhost';
@@ -11,7 +13,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require '../vendor/autoload.php';
 require '../src/config/db.php';
 
-$app = new \Slim\App;
+$app = new \Slim\App(['settings' => ['displayErrorDetails' => true]]);
 
 // Define app routes
 $app->get('/hello/{name}', function (Request $request, Response $response) {
@@ -23,6 +25,9 @@ $app->get('/hello/{name}', function (Request $request, Response $response) {
 
 //Procedures Routes
 require '../src/routes/procedures.php';
+
+//Uploads Routes
+require '../src/routes/uploads.php';
 
 // Run app
 $app->run();
