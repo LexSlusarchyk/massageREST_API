@@ -32,6 +32,9 @@ require '../src/routes/employees.php';
 //Products Routes
 require '../src/routes/products.php';
 
+//News Routes
+require '../src/routes/news.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
