@@ -2,11 +2,9 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-// $app = new \Slim\App;
-
-//Get All Procedures
-$app->get('/api/procedures', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM Procedures";
+//Get All Employees
+$app->get('/api/employees', function (Request $request, Response $response) {
+    $sql = "SELECT * FROM Employees";
 
     try{
         // Get DB Object
@@ -22,11 +20,11 @@ $app->get('/api/procedures', function (Request $request, Response $response) {
     }
 });
 
-//Get Procedure
-$app->get('/api/procedures/{id}', function (Request $request, Response $response) {
+//Get Employee
+$app->get('/api/employee/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
-    $sql = "SELECT * FROM Procedures WHERE id = $id ";
+    $sql = "SELECT * FROM Employees WHERE id = $id ";
 
     try{
         // Get DB Object
@@ -42,13 +40,13 @@ $app->get('/api/procedures/{id}', function (Request $request, Response $response
     }
 });
 
-//Create Procedure
-$app->post('/api/procedures/add', function (Request $request, Response $response) {
+//Create Employee
+$app->post('/api/employees/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
 
-    $sql = "INSERT INTO Procedures (title, text, image) VALUES (:title,:text, :image)";
+    $sql = "INSERT INTO Employees (title, text, image) VALUES (:title,:text, :image)";
 
     try{
         // Get DB Object
@@ -70,15 +68,15 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
     }
 });
 
-//Update Procedure
-$app->put('/api/procedures/update/{id}', function (Request $request, Response $response) {
+//Update Employee
+$app->put('/api/employees/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
 
 
-    $sql = "UPDATE Procedures SET
+    $sql = "UPDATE Employees SET
                 title = :title,
                 text = :text,
                 image = :image
@@ -105,11 +103,11 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
     }
 });
 
-//Delete Procedure
-$app->delete('/api/procedures/delete/{id}', function (Request $request, Response $response) {
+//Delete Employee
+$app->delete('/api/employees/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
-    $sql = "DELETE FROM Procedures WHERE id = $id";
+    $sql = "DELETE FROM Employees WHERE id = $id";
 
     try{
         // Get DB Object

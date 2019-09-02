@@ -26,6 +26,9 @@ $app->get('/hello/{name}', function (Request $request, Response $response) {
 //Procedures Routes
 require '../src/routes/procedures.php';
 
+//Employees Routes
+require '../src/routes/employees.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
