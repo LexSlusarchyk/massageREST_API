@@ -2,9 +2,9 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-//Get All Employees
-$app->get('/api/employees', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM Employees";
+//Get All Products
+$app->get('/api/products', function (Request $request, Response $response) {
+    $sql = "SELECT * FROM Products";
 
     try{
         // Get DB Object
@@ -20,11 +20,11 @@ $app->get('/api/employees', function (Request $request, Response $response) {
     }
 });
 
-//Get Employee
-$app->get('/api/employees/{id}', function (Request $request, Response $response) {
+//Get Product
+$app->get('/api/products/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
-    $sql = "SELECT * FROM Employees WHERE id = $id ";
+    $sql = "SELECT * FROM Products WHERE id = $id ";
 
     try{
         // Get DB Object
@@ -40,13 +40,13 @@ $app->get('/api/employees/{id}', function (Request $request, Response $response)
     }
 });
 
-//Create Employee
-$app->post('/api/employees/add', function (Request $request, Response $response) {
+//Create Product
+$app->post('/api/products/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
 
-    $sql = "INSERT INTO Employees (title, text, image) VALUES (:title,:text, :image)";
+    $sql = "INSERT INTO Products (title, text, image) VALUES (:title,:text, :image)";
 
     try{
         // Get DB Object
@@ -68,15 +68,15 @@ $app->post('/api/employees/add', function (Request $request, Response $response)
     }
 });
 
-//Update Employee
-$app->put('/api/employees/update/{id}', function (Request $request, Response $response) {
+//Update Product
+$app->put('/api/products/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
 
 
-    $sql = "UPDATE Employees SET
+    $sql = "UPDATE Products SET
                 title = :title,
                 text = :text,
                 image = :image
@@ -103,11 +103,11 @@ $app->put('/api/employees/update/{id}', function (Request $request, Response $re
     }
 });
 
-//Delete Employee
-$app->delete('/api/employees/delete/{id}', function (Request $request, Response $response) {
+//Delete Product
+$app->delete('/api/products/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
-    $sql = "DELETE FROM Employees WHERE id = $id";
+    $sql = "DELETE FROM Products WHERE id = $id";
 
     try{
         // Get DB Object

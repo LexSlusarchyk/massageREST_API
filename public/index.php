@@ -29,6 +29,9 @@ require '../src/routes/procedures.php';
 //Employees Routes
 require '../src/routes/employees.php';
 
+//Products Routes
+require '../src/routes/products.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
