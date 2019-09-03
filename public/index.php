@@ -35,6 +35,9 @@ require '../src/routes/products.php';
 //News Routes
 require '../src/routes/news.php';
 
+//Gallery Routes
+require '../src/routes/gallery.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
