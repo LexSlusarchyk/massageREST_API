@@ -47,8 +47,9 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
+    $category_id = $request->getParam('category_id');
 
-    $sql = "INSERT INTO Procedures (title, text, image) VALUES (:title,:text, :image)";
+    $sql = "INSERT INTO Procedures (title, text, image, category_id) VALUES (:title,:text, :image, :category_id)";
 
     try{
         // Get DB Object
@@ -60,6 +61,7 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':category_id', $category_id);
 
         $stmt->execute();
         $db = null;
@@ -76,12 +78,14 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
+    $category_id = $request->getParam('category_id');
 
 
     $sql = "UPDATE Procedures SET
                 title = :title,
                 text = :text,
-                image = :image
+                image = :image,
+                category_id = :category_id
             WHERE id = $id";
 
     try{
@@ -94,6 +98,7 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':category_id', $category_id);
 
         $stmt->execute();
         $db = null;
@@ -128,3 +133,53 @@ $app->delete('/api/procedures/delete/{id}', function (Request $request, Response
         echo '{"error": {"text": '.$e->getMessage().'}';
     }
 });
+
+//Get Procedures by Category Id
+$app->get('/api/procedures/category/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $allCategories = getAllCategories();
+    $children = getChildren($allCategories, $id);
+
+    if(empty($children)) {
+        $sql = "SELECT * FROM Procedures WHERE category_id = $id";
+    } else {
+      $childrenComaSeparated = implode(', ', $children);
+      $sql = "SELECT * FROM Procedures WHERE category_id IN ($childrenComaSeparated)";
+    }
+
+    try{
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $procedures = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($procedures);
+    } catch(PDOException $e){
+        echo '{"error": {"text": '.$e->getMessage().'}';
+    }
+});
+
+function getAllCategories () {
+  $sql = "SELECT * FROM Categories";
+  $db = new db();
+  $db = $db->connect();
+  $stmt = $db->query($sql);
+  $categories = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  $db = null;
+  return $categories;
+}
+
+function getChildren ($categories, $categoryId) {
+  $children = array();
+
+  for ($i = 0; $i < count($categories); $i++) {
+      if ($categories[$i]->parent_id === $categoryId) {
+          array_push($children, $categories[$i]->id);
+          $subCategories = getChildren($categories, $categories[$i]->id);
+          $children = array_merge($children, $subCategories);
+      }
+  }
+
+  return $children;
+}

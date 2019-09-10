@@ -38,6 +38,9 @@ require '../src/routes/news.php';
 //Gallery Routes
 require '../src/routes/gallery.php';
 
+//Categories Routes
+require '../src/routes/categories.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
