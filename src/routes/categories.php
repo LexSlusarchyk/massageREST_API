@@ -20,11 +20,32 @@ $app->get('/api/categories', function (Request $request, Response $response) {
     }
 });
 
+//Get Category Children
+$app->get('/api/categories/children/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+
+    $sql = "SELECT * FROM Categories WHERE parent_id = $id";
+
+    try{
+        // Get DB Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $procedure = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($procedure);
+    } catch(PDOException $e){
+        echo '{"error": {"text": '.$e->getMessage().'}';
+    }
+});
+
+
 //Get Category
 $app->get('/api/categories/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
-    $sql = "SELECT * FROM Categories WHERE id = $id ";
+    $sql = "SELECT * FROM Categories WHERE id = $id";
 
     try{
         // Get DB Object
@@ -44,9 +65,10 @@ $app->get('/api/categories/{id}', function (Request $request, Response $response
 $app->post('/api/categories/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $image = $request->getParam('image');
+    $text = $request->getParam('text');
     $parent_id = $request->getParam('parentId');
 
-    $sql = "INSERT INTO Categories (title, image, parent_id) VALUES (:title, :image, :parent_id)";
+    $sql = "INSERT INTO Categories (title, image, text, parent_id) VALUES (:title, :image, :text, :parent_id)";
 
     try{
         // Get DB Object
@@ -57,6 +79,7 @@ $app->post('/api/categories/add', function (Request $request, Response $response
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':text', $text);
         $stmt->bindParam(':parent_id', $parent_id);
 
         $stmt->execute();
@@ -73,11 +96,15 @@ $app->put('/api/categories/update/{id}', function (Request $request, Response $r
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $image = $request->getParam('image');
+    $text = $request->getParam('text');
+    $parent_id = $request->getParam('parentId');
 
 
     $sql = "UPDATE Categories SET
                 title = :title,
-                image = :image
+                image = :image,
+                text = :text,
+                parent_id = :parent_id
             WHERE id = $id";
 
     try{
@@ -89,6 +116,8 @@ $app->put('/api/categories/update/{id}', function (Request $request, Response $r
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':parent_id', $parent_id);
 
         $stmt->execute();
         $db = null;
