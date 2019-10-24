@@ -40,6 +40,24 @@ $app->get('/api/categories/children/{id}', function (Request $request, Response 
     }
 });
 
+//Get Favorite Categories
+$app->get('/api/categories/favorite', function (Request $request, Response $response) {
+
+    $sql = "SELECT * FROM Categories WHERE favorite = '1'";
+
+    try{
+        // Get DB Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $procedure = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($procedure);
+    } catch(PDOException $e){
+        echo '{"error": {"text": '.$e->getMessage().'}';
+    }
+});
 
 //Get Category
 $app->get('/api/categories/{id}', function (Request $request, Response $response) {
@@ -98,13 +116,15 @@ $app->put('/api/categories/update/{id}', function (Request $request, Response $r
     $image = $request->getParam('image');
     $text = $request->getParam('text');
     $parent_id = $request->getParam('parentId');
+    $favorite = $request->getParam('favorite');
 
 
     $sql = "UPDATE Categories SET
                 title = :title,
                 image = :image,
                 text = :text,
-                parent_id = :parent_id
+                parent_id = :parent_id,
+                favorite = :favorite
             WHERE id = $id";
 
     try{
@@ -118,6 +138,7 @@ $app->put('/api/categories/update/{id}', function (Request $request, Response $r
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':parent_id', $parent_id);
+        $stmt->bindParam(':favorite', $favorite);
 
         $stmt->execute();
         $db = null;

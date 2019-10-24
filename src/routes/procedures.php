@@ -45,11 +45,14 @@ $app->get('/api/procedures/{id}', function (Request $request, Response $response
 //Create Procedure
 $app->post('/api/procedures/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
+    $duration = $request->getParam('duration');
+    $price = $request->getParam('price');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
     $category_id = $request->getParam('category_id');
+    $videoUrl = $request->getParam('videoUrl');
 
-    $sql = "INSERT INTO Procedures (title, text, image, category_id) VALUES (:title,:text, :image, :category_id)";
+    $sql = "INSERT INTO Procedures (title, duration, price, text, image, category_id, videoUrl) VALUES (:title, :duration, :price, :text, :image, :category_id, :videoUrl)";
 
     try{
         // Get DB Object
@@ -59,9 +62,12 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':price', $price);
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':category_id', $category_id);
+        $stmt->bindParam(':videoUrl', $videoUrl);
 
         $stmt->execute();
         $db = null;
@@ -76,16 +82,22 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
 $app->put('/api/procedures/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
+    $duration = $request->getParam('duration');
+    $price = $request->getParam('price');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
     $category_id = $request->getParam('category_id');
+    $videoUrl = $request->getParam('videoUrl');
 
 
     $sql = "UPDATE Procedures SET
                 title = :title,
+                duration = :duration,
+                price = :price,
                 text = :text,
                 image = :image,
-                category_id = :category_id
+                category_id = :category_id,
+                videoUrl = :videoUrl
             WHERE id = $id";
 
     try{
@@ -96,9 +108,12 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':price', $price);
         $stmt->bindParam(':text', $text);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':category_id', $category_id);
+        $stmt->bindParam(':videoUrl', $videoUrl);
 
         $stmt->execute();
         $db = null;
