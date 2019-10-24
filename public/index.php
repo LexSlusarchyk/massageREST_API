@@ -41,6 +41,9 @@ require '../src/routes/gallery.php';
 //Categories Routes
 require '../src/routes/categories.php';
 
+//Enrollment Routes
+require '../src/routes/enrollment.php';
+
 //Uploads Routes
 require '../src/routes/uploads.php';
 
