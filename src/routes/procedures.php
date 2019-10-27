@@ -2,8 +2,6 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-// $app = new \Slim\App;
-
 //Get All Procedures
 $app->get('/api/procedures', function (Request $request, Response $response) {
     $sql = "SELECT * FROM Procedures";
@@ -43,7 +41,7 @@ $app->get('/api/procedures/{id}', function (Request $request, Response $response
 });
 
 //Create Procedure
-$app->post('/api/procedures/add', function (Request $request, Response $response) {
+$app->post('/api/admin/procedures/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $duration = $request->getParam('duration');
     $price = $request->getParam('price');
@@ -79,7 +77,7 @@ $app->post('/api/procedures/add', function (Request $request, Response $response
 });
 
 //Update Procedure
-$app->put('/api/procedures/update/{id}', function (Request $request, Response $response) {
+$app->put('/api/admin/procedures/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $duration = $request->getParam('duration');
@@ -126,7 +124,7 @@ $app->put('/api/procedures/update/{id}', function (Request $request, Response $r
 });
 
 //Delete Procedure
-$app->delete('/api/procedures/delete/{id}', function (Request $request, Response $response) {
+$app->delete('/api/admin/procedures/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
     $sql = "DELETE FROM Procedures WHERE id = $id";

@@ -41,7 +41,7 @@ $app->get('/api/employees/{id}', function (Request $request, Response $response)
 });
 
 //Create Employee
-$app->post('/api/employees/add', function (Request $request, Response $response) {
+$app->post('/api/admin/employees/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
@@ -69,7 +69,7 @@ $app->post('/api/employees/add', function (Request $request, Response $response)
 });
 
 //Update Employee
-$app->put('/api/employees/update/{id}', function (Request $request, Response $response) {
+$app->put('/api/admin/employees/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $text = $request->getParam('text');
@@ -104,7 +104,7 @@ $app->put('/api/employees/update/{id}', function (Request $request, Response $re
 });
 
 //Delete Employee
-$app->delete('/api/employees/delete/{id}', function (Request $request, Response $response) {
+$app->delete('/api/admin/employees/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
     $sql = "DELETE FROM Employees WHERE id = $id";

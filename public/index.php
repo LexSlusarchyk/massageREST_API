@@ -1,19 +1,19 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Slim\Http\UploadedFile;
-
-
-
-//$config['db']['host']   = 'localhost';
-//$config['db']['user']   = 'root';
-//$config['db']['pass']   = '';
-//$config['db']['dbname'] = 'massage';
 
 require '../vendor/autoload.php';
 require '../src/config/db.php';
 
 $app = new \Slim\App(['settings' => ['displayErrorDetails' => true]]);
+
+$app->add(new Tuupola\Middleware\JwtAuthentication([
+    "secret" => "supersecretkeyyoushouldnotcommittogithub",
+    "path" => ["/api/admin"],
+    "before" => function ($request, $arguments) {
+        return $request->withHeader("Foo", "bar");
+    }
+]));
 
 // Define app routes
 $app->get('/hello/{name}', function (Request $request, Response $response) {
@@ -46,6 +46,9 @@ require '../src/routes/enrollment.php';
 
 //Uploads Routes
 require '../src/routes/uploads.php';
+
+//Login Routes
+require '../src/routes/login.php';
 
 // Run app
 $app->run();

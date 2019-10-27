@@ -80,7 +80,7 @@ $app->get('/api/categories/{id}', function (Request $request, Response $response
 });
 
 //Create Category
-$app->post('/api/categories/add', function (Request $request, Response $response) {
+$app->post('/api/admin/categories/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $image = $request->getParam('image');
     $text = $request->getParam('text');
@@ -110,7 +110,7 @@ $app->post('/api/categories/add', function (Request $request, Response $response
 });
 
 //Update Category
-$app->put('/api/categories/update/{id}', function (Request $request, Response $response) {
+$app->put('/api/admin/categories/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $image = $request->getParam('image');
@@ -151,7 +151,7 @@ $app->put('/api/categories/update/{id}', function (Request $request, Response $r
 });
 
 //Delete Category
-$app->delete('/api/categories/delete/{id}', function (Request $request, Response $response) {
+$app->delete('/api/admin/categories/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
     $sql = "DELETE FROM Categories WHERE id = $id";

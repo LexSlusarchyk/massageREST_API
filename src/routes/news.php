@@ -41,7 +41,7 @@ $app->get('/api/news/{id}', function (Request $request, Response $response) {
 });
 
 //Create Article
-$app->post('/api/news/add', function (Request $request, Response $response) {
+$app->post('/api/admin/news/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
     $text = $request->getParam('text');
     $image = $request->getParam('image');
@@ -69,7 +69,7 @@ $app->post('/api/news/add', function (Request $request, Response $response) {
 });
 
 //Update Article
-$app->put('/api/news/update/{id}', function (Request $request, Response $response) {
+$app->put('/api/admin/news/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
     $text = $request->getParam('text');
@@ -104,7 +104,7 @@ $app->put('/api/news/update/{id}', function (Request $request, Response $respons
 });
 
 //Delete Article
-$app->delete('/api/news/delete/{id}', function (Request $request, Response $response) {
+$app->delete('/api/admin/news/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
 
     $sql = "DELETE FROM News WHERE id = $id";
