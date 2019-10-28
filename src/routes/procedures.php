@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 //Get All Procedures
 $app->get('/api/procedures', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM Procedures";
+    $sql = "SELECT * FROM Procedures ORDER BY id DESC";
 
     try{
         // Get DB Object

@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 //Get All Employees
 $app->get('/api/employees', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM Employees";
+    $sql = "SELECT * FROM Employees ORDER BY id DESC";
 
     try{
         // Get DB Object

@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 //Get All News
 $app->get('/api/news', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM News";
+    $sql = "SELECT * FROM News ORDER BY id DESC";
 
     try{
         // Get DB Object
