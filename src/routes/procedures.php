@@ -32,7 +32,7 @@ $app->get('/api/procedures/{id}', function (Request $request, Response $response
         // Connect
         $db = $db->connect();
         $stmt = $db->query($sql);
-        $procedure = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $procedure = $stmt->fetchObject();;
         $db = null;
         echo json_encode($procedure);
     } catch(PDOException $e){
@@ -43,14 +43,16 @@ $app->get('/api/procedures/{id}', function (Request $request, Response $response
 //Create Procedure
 $app->post('/api/admin/procedures/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
+    $titleEn = $request->getParam('titleEn');
     $duration = $request->getParam('duration');
     $price = $request->getParam('price');
     $text = $request->getParam('text');
+    $textEn = $request->getParam('textEn');
     $image = $request->getParam('image');
     $category_id = $request->getParam('category_id');
     $videoUrl = $request->getParam('videoUrl');
 
-    $sql = "INSERT INTO Procedures (title, duration, price, text, image, category_id, videoUrl) VALUES (:title, :duration, :price, :text, :image, :category_id, :videoUrl)";
+    $sql = "INSERT INTO Procedures (title, titleEn, duration, price, text, textEn, image, category_id, videoUrl) VALUES (:title, :titleEn, :duration, :price, :text, :textEn, :image, :category_id, :videoUrl)";
 
     try{
         // Get DB Object
@@ -60,9 +62,11 @@ $app->post('/api/admin/procedures/add', function (Request $request, Response $re
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':titleEn', $titleEn);
         $stmt->bindParam(':duration', $duration);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':textEn', $textEn);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':category_id', $category_id);
         $stmt->bindParam(':videoUrl', $videoUrl);
@@ -80,9 +84,11 @@ $app->post('/api/admin/procedures/add', function (Request $request, Response $re
 $app->put('/api/admin/procedures/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
+    $titleEn = $request->getParam('titleEn');
     $duration = $request->getParam('duration');
     $price = $request->getParam('price');
     $text = $request->getParam('text');
+    $textEn = $request->getParam('textEn');
     $image = $request->getParam('image');
     $category_id = $request->getParam('category_id');
     $videoUrl = $request->getParam('videoUrl');
@@ -90,9 +96,11 @@ $app->put('/api/admin/procedures/update/{id}', function (Request $request, Respo
 
     $sql = "UPDATE Procedures SET
                 title = :title,
+                titleEn = :titleEn,
                 duration = :duration,
                 price = :price,
                 text = :text,
+                textEn = :textEn,
                 image = :image,
                 category_id = :category_id,
                 videoUrl = :videoUrl
@@ -106,9 +114,11 @@ $app->put('/api/admin/procedures/update/{id}', function (Request $request, Respo
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':titleEn', $titleEn);
         $stmt->bindParam(':duration', $duration);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':textEn', $textEn);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':category_id', $category_id);
         $stmt->bindParam(':videoUrl', $videoUrl);

@@ -82,11 +82,13 @@ $app->get('/api/categories/{id}', function (Request $request, Response $response
 //Create Category
 $app->post('/api/admin/categories/add', function (Request $request, Response $response) {
     $title = $request->getParam('title');
+    $titleEn = $request->getParam('titleEn');
     $image = $request->getParam('image');
     $text = $request->getParam('text');
+    $textEn = $request->getParam('textEn');
     $parent_id = $request->getParam('parentId');
 
-    $sql = "INSERT INTO Categories (title, image, text, parent_id) VALUES (:title, :image, :text, :parent_id)";
+    $sql = "INSERT INTO Categories (title, titleEn, image, text, textEn, parent_id) VALUES (:title, :titleEn, :image, :text, :textEn, :parent_id)";
 
     try{
         // Get DB Object
@@ -96,8 +98,10 @@ $app->post('/api/admin/categories/add', function (Request $request, Response $re
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':titleEn', $titleEn);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':textEn', $textEn);
         $stmt->bindParam(':parent_id', $parent_id);
 
         $stmt->execute();
@@ -113,16 +117,20 @@ $app->post('/api/admin/categories/add', function (Request $request, Response $re
 $app->put('/api/admin/categories/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
+    $titleEn = $request->getParam('titleEn');
     $image = $request->getParam('image');
     $text = $request->getParam('text');
+    $textEn = $request->getParam('textEn');
     $parent_id = $request->getParam('parentId');
     $favorite = $request->getParam('favorite');
 
 
     $sql = "UPDATE Categories SET
                 title = :title,
+                titleEn = :titleEn,
                 image = :image,
                 text = :text,
+                textEn = :textEn,
                 parent_id = :parent_id,
                 favorite = :favorite
             WHERE id = $id";
@@ -135,8 +143,10 @@ $app->put('/api/admin/categories/update/{id}', function (Request $request, Respo
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':titleEn', $titleEn);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':textEn', $textEn);
         $stmt->bindParam(':parent_id', $parent_id);
         $stmt->bindParam(':favorite', $favorite);
 
