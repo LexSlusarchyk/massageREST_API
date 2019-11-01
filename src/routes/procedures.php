@@ -164,10 +164,10 @@ $app->get('/api/procedures/category/{id}', function (Request $request, Response 
     $children = getChildren($allCategories, $id);
 
     if(empty($children)) {
-        $sql = "SELECT * FROM Procedures WHERE category_id = $id";
+        $sql = "SELECT * FROM Procedures WHERE category_id = $id ORDER BY id DESC";
     } else {
       $childrenComaSeparated = implode(', ', $children);
-      $sql = "SELECT * FROM Procedures WHERE category_id IN ($childrenComaSeparated)";
+      $sql = "SELECT * FROM Procedures WHERE category_id IN ($childrenComaSeparated) ORDER BY id DESC";
     }
 
     try{
