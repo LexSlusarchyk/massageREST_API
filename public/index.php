@@ -10,6 +10,7 @@ $app = new \Slim\App(['settings' => ['displayErrorDetails' => true]]);
 $app->add(new Tuupola\Middleware\JwtAuthentication([
     "secret" => "supersecretkeyyoushouldnotcommittogithub",
     "path" => ["/api/admin"],
+    "secure" => false,
     "before" => function ($request, $arguments) {
         return $request->withHeader("Foo", "bar");
     }
