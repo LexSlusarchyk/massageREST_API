@@ -68,6 +68,48 @@ $app->post('/api/enrollment/add', function (Request $request, Response $response
     } catch(PDOException $e){
         echo '{"error": {"text": '.$e->getMessage().'}';
     }
+
+    // message to admin
+    $msg = "
+        <html>
+        <head>
+            <style>
+                table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  width: 100%;
+                }        
+                td, th {
+                  border: 1px solid #dddddd;
+                  text-align: left;
+                  padding: 8px;
+                }
+                </style>
+        </head>
+        <body>
+            <p>Новий запис!</p>
+            <table>
+            <tr>
+            <th>Ім'я</th>
+            <th>Телефон</th>
+            <th>Тема</th>
+            <th>Повідомлення</th>
+            </tr>
+            <tr>
+            <td>$name</td>
+            <td>$phone</td>
+            <td>$subject</td>
+            <td>$message</td>
+            </tr>
+            </table>
+        </body>
+        </html>
+    ";
+
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= 'From: <admin-delight-body@http://spa-delight.lviv.ua/>' . "\r\n";
+    mail('lexslusarchyk@gmail.com',$subject,$msg,$headers);
 });
 
 
