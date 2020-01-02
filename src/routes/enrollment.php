@@ -109,7 +109,7 @@ $app->post('/api/enrollment/add', function (Request $request, Response $response
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: <admin-delight-body@http://spa-delight.lviv.ua/>' . "\r\n";
-    mail('lexslusarchyk@gmail.com',$subject,$msg,$headers);
+    mail('delightbodysalon@gmail.com',$subject,$msg,$headers);
 });
 
 
