@@ -18,6 +18,19 @@ $app->post('/api/uploads', function (Request $request, Response $response) {
     }
 });
 
+$app->post('/api/uploads/thumbnail', function (Request $request, Response $response) {
+    $directory = $this->get('upload_directory');
+    $uploadedFiles = $request->getUploadedFiles();
+
+//     handle single input with single file upload
+    $uploadedFile = $uploadedFiles['image'];
+    $name = $request->getParam('name');
+    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+        $filename = moveUploadedThumbnail($directory, $uploadedFile, $name);
+        echo "\"$filename\"";
+    }
+});
+
 function moveUploadedFile($directory, UploadedFile $uploadedFile)
 {
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
@@ -29,3 +42,11 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile)
     return $filename;
 }
 
+function moveUploadedThumbnail($directory, UploadedFile $uploadedFile, $name)
+{
+    $filename = $name;
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+    return $filename;
+}
